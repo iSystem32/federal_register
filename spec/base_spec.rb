@@ -101,13 +101,13 @@ describe FederalRegister::Base do
     end
 
     [FederalRegister::Agency, FederalRegister::Article, FederalRegister::Base, FederalRegister::Client, FederalRegister::ResultSet].each do |klass|
-      it "should set default_options[:base_uri] for #{klass}" do
-        klass.default_options[:base_uri].should == 'http://fr2.local/api/v1'
+      it "should set base uri for #{klass}" do
+        klass.base_uri.should == 'http://fr2.local/api/v1'
       end
     end
 
     after(:all) do
-      FederalRegister::Base.override_base_uri('https://www.federalregister.gov/api/v1')
+      FederalRegister::Base.override_base_uri('https://www.federalregister.gov/')
     end
   end
 end

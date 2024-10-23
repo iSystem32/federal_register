@@ -3,7 +3,16 @@ require File.dirname(__FILE__) + '/spec_helper'
 describe FederalRegister::ResultSet do
   describe "#next" do
     it "loads the next_page_url" do
-      FakeWeb.register_uri(:get, "https://www.federalregister.gov/api/v1/fishes?page=2", :body => {:count => 24}.to_json, :content_type =>"text/json")
+      stub_request(
+        :get,
+        "https://www.federalregister.gov/api/v1/fishes?page=2"
+      )
+      .to_return(
+        body: {:count => 24}.to_json,
+        headers: { 'Content-Type' => 'application/json' },
+        status: 200
+      )
+
       FederalRegister::ResultSet.new({'next_page_url' => 'https://www.federalregister.gov/api/v1/fishes?page=2'}, FederalRegister::Document).next.count.should == 24
     end
   end

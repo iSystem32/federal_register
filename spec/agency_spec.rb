@@ -3,7 +3,16 @@ require File.dirname(__FILE__) + '/spec_helper'
 describe FederalRegister::Agency do
   describe ".all" do
     before(:each) do
-      FakeWeb.register_uri(:get, "https://www.federalregister.gov/api/v1/agencies.json", :body => [{},{}].to_json, :content_type =>"text/json")
+      stub_request(
+        :get,
+        "https://www.federalregister.gov/api/v1/agencies.json"
+      )
+      .to_return(
+        body: [{},{}].to_json,
+        headers: { 'Content-Type' => 'application/json' },
+        status: 200
+      )
+
     end
 
     it "returns Agency objects" do
