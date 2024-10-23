@@ -17,11 +17,11 @@ class FederalRegister::ResultSet < FederalRegister::Client
   end
 
   def next
-    self.class.fetch(@next_url, :result_class => @result_class) if @next_url
+    self.class.fetch(@next_url, :result_class => @result_class, :ignore_base_url => true) if @next_url
   end
 
   def previous
-    self.class.fetch(@prev_url, :result_class => @result_class) if @prev_url
+    self.class.fetch(@prev_url, :result_class => @result_class, :ignore_base_url => true) if @prev_url
   end
 
   def self.fetch(url, options = {})

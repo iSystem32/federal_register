@@ -90,13 +90,14 @@ class FederalRegister::Document < FederalRegister::Base
 
   %w(full_text_xml abstract_html body_html raw_text mods).each do |file_type|
     define_method file_type do
-      begin
-        self.class.get(send("#{file_type}_url")).body
-      rescue FederalRegister::Client::RecordNotFound
+      response = Faraday.get(send("#{file_type}_url"))
+      if response.success?
+        response.body
+      elsif response.status == 404
         nil
-      rescue
+      else
         raise send("#{file_type}_url").inspect
-       end
+      end
     end
   end
 

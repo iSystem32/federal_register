@@ -1,7 +1,14 @@
 class FederalRegister::Client
-  include HTTParty
 
-  class ResponseError < HTTParty::ResponseError
+  class ResponseError < Faraday::Error
+
+    attr_reader :response
+
+    def initialize(response)
+      @response = response
+      super(message)
+    end
+
     def message
       response.body
     end
@@ -17,14 +24,29 @@ class FederalRegister::Client
   class ServerError < ResponseError; end
   class ServiceUnavailable < ResponseError; end
 
-  base_uri 'https://www.federalregister.gov/api/v1'
+  FaradayResponseWrapper = Struct.new(:parsed_response)
 
-  def self.get(url, *options)
-    response = super
+  def self.base_uri
+    'https://www.federalregister.gov'
+  end
 
-    case response.code
+  def self.get(path, options={})
+    @connection = Faraday.new(url: base_uri) do |conn|
+      conn.request :url_encoded
+      conn.response :logger if ENV['DEBUG'] # Optional: Enable logging in debug mode
+      conn.adapter Faraday.default_adapter
+    end
+
+    if options[:ignore_base_url]
+      response = Faraday.get(path)
+    else
+      path = 'api/v1' + path #TODO: Change subclasses so they don't use leading slashes in relative paths
+      response = @connection.get(path, options[:query] || {})
+    end
+
+    case response.status
     when 200
-      response
+      FaradayResponseWrapper.new(JSON.parse(response.body))
     when 400
       raise BadRequest.new(response)
     when 404
@@ -36,7 +58,7 @@ class FederalRegister::Client
     when 504
       raise GatewayTimeout.new(response)
     else
-      raise HTTParty::ResponseError.new(response)
+      raise Faraday::Error.new(nil, response)
     end
   end
 end

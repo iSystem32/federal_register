@@ -103,7 +103,13 @@ class FederalRegister::Base < FederalRegister::Client
       FederalRegister::PublicInspectionIssueResultSet,
       FederalRegister::FacetResultSet,
     ].each do |klass|
-      klass.base_uri(uri)
+
+      klass.class_eval do
+        define_singleton_method(:base_uri) do 
+          uri
+        end  
+      end
+
     end
   end
 

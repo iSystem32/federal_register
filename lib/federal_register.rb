@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'httparty'
+require 'faraday'
 
 module FederalRegister
 end
