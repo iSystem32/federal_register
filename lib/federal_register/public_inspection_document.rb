@@ -24,28 +24,28 @@ class FederalRegister::PublicInspectionDocument < FederalRegister::Base
                 :type => :datetime
 
   def self.search(args)
-    FederalRegister::ResultSet.fetch("/public-inspection-documents.json", :query => args, :result_class => self)
+    FederalRegister::ResultSet.fetch("public-inspection-documents.json", :query => args, :result_class => self)
   end
 
   def self.search_metadata(args)
-    FederalRegister::ResultSet.fetch("/public-inspection-documents.json", :query => args.merge(:metadata_only => '1'), :result_class => self)
+    FederalRegister::ResultSet.fetch("public-inspection-documents.json", :query => args.merge(:metadata_only => '1'), :result_class => self)
   end
 
   def self.find(document_number)
-    attributes = get("/public-inspection-documents/#{document_number}.json").parsed_response
+    attributes = get("public-inspection-documents/#{document_number}.json").parsed_response
     new(attributes, :full => true)
   end
 
   def self.available_on(date)
-    FederalRegister::PublicInspectionIssueResultSet.fetch("/public-inspection-documents.json", :query => {:conditions => {:available_on => date}}, :result_class => self)
+    FederalRegister::PublicInspectionIssueResultSet.fetch("public-inspection-documents.json", :query => {:conditions => {:available_on => date}}, :result_class => self)
   end
 
   def self.current
-    FederalRegister::PublicInspectionIssueResultSet.fetch("/public-inspection-documents/current.json", :result_class => self)
+    FederalRegister::PublicInspectionIssueResultSet.fetch("public-inspection-documents/current.json", :result_class => self)
   end
 
   def self.find_all_base_path
-    '/public-inspection-documents'
+    'public-inspection-documents'
   end
 
   def agencies

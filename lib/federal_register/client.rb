@@ -27,7 +27,7 @@ class FederalRegister::Client
   FaradayResponseWrapper = Struct.new(:parsed_response)
 
   def self.base_uri
-    'https://www.federalregister.gov'
+    'https://www.federalregister.gov/api/v1'
   end
 
   def self.get(path, options={})
@@ -42,7 +42,6 @@ class FederalRegister::Client
     if options[:ignore_base_url]
       response = Faraday.get(path)
     else
-      path = 'api/v1' + path #TODO: Change subclasses so they don't use leading slashes in relative paths
       response = @connection.get(path, options[:query] || {})
     end
 

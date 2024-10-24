@@ -5,7 +5,7 @@ class FederalRegister::DocumentSearchDetails < FederalRegister::Base
                 :suggestions
 
   def self.search(args)
-    response = get('/documents/search-details', query: args).parsed_response
+    response = get('documents/search-details', query: args).parsed_response
     new(response)
   end
 end

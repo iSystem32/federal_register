@@ -5,7 +5,7 @@ class FederalRegister::PublicInspectionDocumentSearchDetails < FederalRegister::
                 :suggestions
 
   def self.search(args)
-    response = get('/public-inspection-documents/search-details', query: args).parsed_response
+    response = get('public-inspection-documents/search-details', query: args).parsed_response
     new(response)
   end
 end

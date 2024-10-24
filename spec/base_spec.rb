@@ -107,7 +107,7 @@ describe FederalRegister::Base do
     end
 
     after(:all) do
-      FederalRegister::Base.override_base_uri('https://www.federalregister.gov/')
+      FederalRegister::Base.override_base_uri('https://www.federalregister.gov/api/v1')
     end
   end
 end
