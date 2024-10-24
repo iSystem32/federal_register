@@ -139,7 +139,7 @@ describe FederalRegister::Document do
       params = URI.encode_www_form([["fields[]","document_number"],["fields[]", "title"]])
       stub_request(
         :get,
-        "https://www.federalregister.gov/api/v1/documents/2016-26522,.json?fields[]=#{params}",
+        "https://www.federalregister.gov/api/v1/documents/2016-26522,.json?#{params}",
       )
       .to_return(
         :body => {:results => [{:document_number => "2016-26522", :title => "Important Notice"}],
