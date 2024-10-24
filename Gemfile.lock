@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     federal_register (0.7.7)
-      faraday (>= 2.0)
+      faraday (>= 1.8)
 
 GEM
   remote: https://rubygems.org/
