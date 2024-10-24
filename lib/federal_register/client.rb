@@ -35,6 +35,8 @@ class FederalRegister::Client
       conn.request :url_encoded
       conn.response :logger if ENV['DEBUG'] # Optional: Enable logging in debug mode
       conn.adapter Faraday.default_adapter
+      conn.options.open_timeout = 1
+      conn.options.timeout = 10 
     end
 
     if options[:ignore_base_url]
