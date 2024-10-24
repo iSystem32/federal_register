@@ -1,11 +1,18 @@
 version: 2.1
-
 orbs:
-  cj: criticaljuncture/cj-orb@0.1
+  ruby: circleci/ruby@1.1.2 
+
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rspec-test
 
 workflows:
-  build_and_notify:
+  test:
     jobs:
-      - cj/build_gem:
-          channel: ofr
-          context: orb-slack
+      - test
