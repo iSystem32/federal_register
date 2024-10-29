@@ -1,5 +1,5 @@
 class FederalRegister::Facet::Document::Weekly < FederalRegister::Facet::Document::Frequency
   def self.url
-    '/documents/facets/weekly'
+    'documents/facets/weekly'
   end
 end

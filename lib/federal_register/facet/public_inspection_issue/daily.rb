@@ -1,6 +1,6 @@
 class FederalRegister::Facet::PublicInspectionIssue::Daily < FederalRegister::Facet::PublicInspectionIssue
   def self.url
-    '/public-inspection-issues/facets/daily'
+    'public-inspection-issues/facets/daily'
   end
 
   private
