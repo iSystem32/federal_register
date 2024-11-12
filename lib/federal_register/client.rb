@@ -39,11 +39,7 @@ class FederalRegister::Client
       conn.options.timeout = 10 
     end
 
-    if options[:ignore_base_url]
-      response = Faraday.get(path)
-    else
-      response = @connection.get(path, options[:query] || {})
-    end
+    response = @connection.get(strip_protocol_and_host(path), options[:query] || {})
 
     case response.status
     when 200
@@ -62,4 +58,16 @@ class FederalRegister::Client
       raise Faraday::Error.new(nil, response)
     end
   end
+
+  def self.strip_protocol_and_host(path)
+    uri = URI.parse(path)
+    
+    path_without_protocol_and_host = uri.path
+    if uri.query
+      path_without_protocol_and_host << "?#{uri.query}"
+    end
+
+    path_without_protocol_and_host
+  end
+  private_class_method :strip_protocol_and_host
 end
