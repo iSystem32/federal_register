@@ -1,5 +1,5 @@
 # federal_register
-
+*   Calling `iso8601` on negative durations retains the negative sign on individual
 Ruby API Client for FederalRegister.gov that handles searching documents and getting basic information about agencies.
 
 For more information about the FederalRegister.gov API, see http://www.federalregister.gov/learn/developers
